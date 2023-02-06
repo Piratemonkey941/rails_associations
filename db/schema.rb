@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_06_011538) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_06_012712) do
   create_table "account_histories", force: :cascade do |t|
     t.string "credit_rating"
     t.integer "account_id", null: false
@@ -37,6 +37,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_06_011538) do
     t.index ["physician_id"], name: "index_appointments_on_physician_id"
   end
 
+  create_table "assemblies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "assemblies_parts", force: :cascade do |t|
+    t.integer "assembly_id", null: false
+    t.integer "part_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assembly_id"], name: "index_assemblies_parts_on_assembly_id"
+    t.index ["part_id"], name: "index_assemblies_parts_on_part_id"
+  end
+
   create_table "authors", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -49,6 +64,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_06_011538) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_books_on_author_id"
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.string "part_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "patients", force: :cascade do |t|
@@ -73,5 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_06_011538) do
   add_foreign_key "accounts", "suppliers"
   add_foreign_key "appointments", "patients"
   add_foreign_key "appointments", "physicians"
+  add_foreign_key "assemblies_parts", "assemblies"
+  add_foreign_key "assemblies_parts", "parts"
   add_foreign_key "books", "authors"
 end
